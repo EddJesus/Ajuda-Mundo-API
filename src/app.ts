@@ -4,8 +4,10 @@ import "dotenv/config";
 
 const app = express()
 
-app.use('/', () => {
-  console.log('Teste')
+app.use('/health', (req, res) => {
+  res.json({
+    status: 'up'
+  })
 })
 
 export { app }
