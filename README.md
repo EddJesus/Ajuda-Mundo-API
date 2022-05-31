@@ -1,7 +1,7 @@
-# A3 - Sistemas distruibuídos e mobile
+# A3 - Usabilidade, desenvolvimento web, mobile e jogos
 
 ## Objetivo
-  Projeto desenvolvido para availação A3 da matéria Sistemas distruibuídos e mobile ministrado pelos professores Gustavos Torres Custodio e Marcos Devaner do Nascimento
+  Projeto desenvolvido para availação A3 da matéria Usabilidade, desenvolvimento web, mobile e jogos ministrado pelos professores Gustavo Torres Custodio e Marcos Devaner do Nascimento
 
 ## Grupo
 - Eduardo de Jesus Santos - RA: 125111362240 
