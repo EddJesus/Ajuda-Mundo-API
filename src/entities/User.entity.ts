@@ -28,7 +28,7 @@ export class Users extends BaseEntity {
     pointsScore: number
 
     @Column({ name: 'activities_ids' })
-    activiesIds: number[]
+    activitiesIds: string
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date
