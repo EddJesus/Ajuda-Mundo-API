@@ -10,7 +10,7 @@ import {
 @Entity()
 export class Activities extends BaseEntity {
     @PrimaryGeneratedColumn()
-    activity_id: number
+    activityId: number
 
     @Column()
     name: string
