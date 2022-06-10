@@ -11,3 +11,6 @@ export const AppDataSource = new DataSource({
   subscribers: [],
   migrations: []
 })
+export const InitializeDatabase = (): DataSource => {
+  return AppDataSource
+}
