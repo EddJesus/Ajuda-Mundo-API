@@ -8,7 +8,7 @@ import {
 } from 'typeorm'
 
 @Entity()
-export class Activities extends BaseEntity {
+export class ActivityEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     activityId: number
 
