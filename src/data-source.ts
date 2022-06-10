@@ -1,6 +1,11 @@
 import { DataSource } from 'typeorm'
 
-import { UserEntity, OngEntity, ActivityStatusEntity, ActivityEntity } from './entities'
+import {
+  UserEntity,
+  OngEntity,
+  ActivityStatusEntity,
+  ActivityEntity,
+} from './entities'
 
 export const AppDataSource = new DataSource({
   type: 'sqlite',
@@ -9,7 +14,7 @@ export const AppDataSource = new DataSource({
   logging: true,
   entities: [UserEntity, OngEntity, ActivityStatusEntity, ActivityEntity],
   subscribers: [],
-  migrations: []
+  migrations: [],
 })
 export const InitializeDatabase = (): DataSource => {
   return AppDataSource

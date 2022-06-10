@@ -16,7 +16,7 @@ try {
 
 app.use('/health', (req, res) => {
   res.json({
-    status: 'up'
+    status: 'up',
   })
 })
 
