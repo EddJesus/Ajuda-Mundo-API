@@ -22,7 +22,7 @@ export class ActivityEntity extends BaseEntity {
   description: string
 
   @Column({ name: 'main_img', nullable: true })
-  mainImg: number
+  mainImg: string
 
   @Column({ default: 0 })
   status: number

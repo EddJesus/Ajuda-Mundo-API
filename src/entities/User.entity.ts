@@ -21,8 +21,8 @@ export class UserEntity extends BaseEntity {
   @Column()
   password: number
 
-  @Column({ name: 'profile_img' })
-  profileImg: number
+  @Column({ name: 'profile_img', nullable: true })
+  profileImg: string
 
   @Column({ name: 'points_score' })
   pointsScore: number
