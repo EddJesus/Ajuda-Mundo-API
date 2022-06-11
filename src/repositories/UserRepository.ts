@@ -1,5 +1,8 @@
 import { AppDataSource } from '../data-source'
-import { UserEntity } from '../entities/User.entity'
+import { UserEntity } from '../entities'
+import { UserType } from '../modules/User/interfaces'
+
+import { DeleteResult } from 'typeorm'
 
 export class UserRepository {
   async getUserById(userId: number): Promise<UserEntity | null> {
@@ -34,28 +37,12 @@ export class UserRepository {
     }
   }
 
-  // TODO: mover para DTO e tipar os dados
-  async saveUser(
-    name: any,
-    email: any,
-    password: any,
-    profileImg: any,
-    pointsScore: any,
-    activitiesIds: any,
-  ): Promise<any> {
-    // TODO: encontrar tipagem para retorno
+  async saveUser(user: UserType): Promise<UserEntity> {
     try {
       console.log('Iniciando registro de novo usuario...')
       const userRepository = AppDataSource.getRepository(UserEntity)
 
-      const response = await userRepository.save({
-        name,
-        email,
-        password,
-        profileImg,
-        pointsScore,
-        activitiesIds,
-      })
+      const response = await userRepository.save(user)
 
       console.log(`Retorno da consulta: ${response}`)
 
@@ -66,29 +53,14 @@ export class UserRepository {
     }
   }
 
-  // TODO: mover para DTO e tipar os dados
-  async updateUser(
-    userId: number,
-    name: any,
-    points: any,
-    description: any,
-    mainImg: any,
-    status: any,
-    ongId: any,
-  ): Promise<any> {
-    // TODO: encontrar tipagem para retorno
+  async updateUser(userId: number, user: UserType): Promise<UserEntity> {
     try {
       console.log(`Iniciando update de usuario com id: ${userId}...`)
       const userRepository = AppDataSource.getRepository(UserEntity)
 
       const response = await userRepository.save({
         userId,
-        name,
-        points,
-        description,
-        mainImg,
-        status,
-        ongId,
+        ...user,
       })
 
       console.log(`Retorno do update: ${response}`)
@@ -100,8 +72,7 @@ export class UserRepository {
     }
   }
 
-  // TODO: se possível arrumar tipagem do retorno desse método
-  async deleteUser(userId: number): Promise<any> {
+  async deleteUser(userId: number): Promise<DeleteResult> {
     try {
       console.log(`Iniciando exclusão de usuario pelo id: ${userId}...`)
       const userRepository = AppDataSource.getRepository(UserEntity)
