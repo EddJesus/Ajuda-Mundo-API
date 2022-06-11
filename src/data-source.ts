@@ -16,6 +16,10 @@ export const AppDataSource = new DataSource({
   subscribers: [],
   migrations: [],
 })
-export const InitializeDatabase = (): DataSource => {
-  return AppDataSource
+export const InitializeDatabase = async (): Promise<void> => {
+  try {
+    await AppDataSource.initialize()
+  } catch (error) {
+    throw error
+  }
 }

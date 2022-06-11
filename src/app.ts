@@ -9,14 +9,15 @@ import 'reflect-metadata'
 
 const app = express()
 
-app.use(express.json())
+InitializeDatabase()
+  .then(() => {
+    console.log('Banco inicializado com sucesso')
+  })
+  .catch((e) => {
+    console.log('erro ao iniciar banco', e)
+  })
 
-try {
-  InitializeDatabase()
-  console.log('Banco de dados inicializado com sucesso!')
-} catch (error) {
-  console.log('Erro ao inicializar banco de dados', error)
-}
+app.use(express.json())
 
 app.use('/health', healthRouter.routes)
 app.use('/ong', ongRouter.routes)
