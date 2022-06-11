@@ -1,5 +1,8 @@
 import { AppDataSource } from '../data-source'
 import { OngEntity } from '../entities/Ong.entity'
+import { OngType } from '../modules/Ong'
+
+import { DeleteResult } from 'typeorm'
 
 export class OngRepository {
   async getOngById(ongId: number): Promise<OngEntity | null> {
@@ -34,26 +37,12 @@ export class OngRepository {
     }
   }
 
-  // TODO: mover para DTO e tipar os dados
-  async saveOng(
-    name: any,
-    email: any,
-    password: any,
-    profileImg: any,
-    activitiesIds: any,
-  ): Promise<any> {
-    // TODO: encontrar tipagem para retorno
+  async saveOng(ong: OngType): Promise<OngEntity> {
     try {
-      console.log('Iniciando registro de novo ong...')
+      console.log('Iniciando registro de nova ong...')
       const ongRepository = AppDataSource.getRepository(OngEntity)
 
-      const response = await ongRepository.save({
-        name,
-        email,
-        password,
-        profileImg,
-        activitiesIds,
-      })
+      const response = await ongRepository.save(ong)
 
       console.log(`Retorno da consulta: ${response}`)
 
@@ -64,27 +53,14 @@ export class OngRepository {
     }
   }
 
-  // TODO: mover para DTO e tipar os dados
-  async updateOng(
-    ongId: number,
-    name: any,
-    points: any,
-    description: any,
-    mainImg: any,
-    status: any,
-  ): Promise<any> {
-    // TODO: encontrar tipagem para retorno
+  async updateOng(ongId: number, ong: OngType): Promise<OngEntity> {
     try {
       console.log(`Iniciando update de ong com id: ${ongId}...`)
       const ongRepository = AppDataSource.getRepository(OngEntity)
 
       const response = await ongRepository.save({
         ongId,
-        name,
-        points,
-        description,
-        mainImg,
-        status,
+        ...ong,
       })
 
       console.log(`Retorno do update: ${response}`)
@@ -96,8 +72,7 @@ export class OngRepository {
     }
   }
 
-  // TODO: se possível arrumar tipagem do retorno desse método
-  async deleteOng(ongId: number): Promise<any> {
+  async deleteOng(ongId: number): Promise<DeleteResult> {
     try {
       console.log(`Iniciando exclusão de ong pelo id: ${ongId}...`)
       const ongRepository = AppDataSource.getRepository(OngEntity)
