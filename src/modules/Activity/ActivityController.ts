@@ -138,6 +138,36 @@ class ActivityController {
       }
     }
   }
+
+  async deleteActivityById(
+    req: Request,
+    res: Response,
+  ): Promise<Response<unknown, Record<string, unknown>>> {
+    try {
+      const params = req.params
+      const activityId = params.id
+
+      await this.activityService.deleteActivityById(Number(activityId))
+
+      return res.status(204).json({
+        message: 'Atividade deletada com sucesso!',
+      })
+    } catch (error) {
+      console.log('ActivityController.deleteActivityById error', error)
+
+      if (error instanceof Error) {
+        return res.status(500).json({
+          erro: true,
+          message: error.message,
+        })
+      } else {
+        return res.status(500).json({
+          erro: true,
+          message: 'Erro não mapeado',
+        })
+      }
+    }
+  }
 }
 
 export { ActivityController }

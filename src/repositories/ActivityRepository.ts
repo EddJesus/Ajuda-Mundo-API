@@ -82,7 +82,8 @@ export class ActivityRepository {
 
       const response = await activyRepository.delete({ activityId })
 
-      console.log(`Retorno da exclusão: ${response}`)
+      console.log(`Retorno da exclusão`)
+      console.log(response)
 
       return response
     } catch (error) {

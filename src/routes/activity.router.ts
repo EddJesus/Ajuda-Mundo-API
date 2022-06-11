@@ -21,4 +21,9 @@ routes.post(
     await ActivityFactory().createActivity(req, res)
   },
 )
+
+routes.delete('/:id', async (req: Request, res: Response) => {
+  await ActivityFactory().deleteActivityById(req, res)
+})
+
 export { routes }

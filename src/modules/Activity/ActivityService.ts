@@ -63,6 +63,21 @@ class ActivityService {
       throw error
     }
   }
+
+  async deleteActivityById(activityId: number): Promise<boolean> {
+    try {
+      const result = await this.activityRepository.deleteActivity(activityId)
+
+      if (result.affected !== 0) {
+        return true
+      } else {
+        throw new Error('Atividade não existe!')
+      }
+    } catch (error) {
+      console.log('ActivityService.deleteActivityById error', error)
+      throw error
+    }
+  }
 }
 
 export { ActivityService }
