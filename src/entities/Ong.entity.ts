@@ -24,7 +24,7 @@ export class OngEntity extends BaseEntity {
   @Column({ name: 'profile_img', nullable: true })
   profileImg: string
 
-  @Column({ name: 'activities_ids' })
+  @Column({ name: 'activities_ids', nullable: true })
   activitiesIds: string
 
   @CreateDateColumn({ name: 'created_at' })

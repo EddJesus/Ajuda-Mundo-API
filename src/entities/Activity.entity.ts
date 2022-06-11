@@ -30,7 +30,7 @@ export class ActivityEntity extends BaseEntity {
   @Column({ name: 'ong_id' })
   ongId: number
 
-  @Column({ name: 'user_id' })
+  @Column({ name: 'user_id', nullable: true })
   userId: number
 
   @CreateDateColumn({ name: 'created_at' })

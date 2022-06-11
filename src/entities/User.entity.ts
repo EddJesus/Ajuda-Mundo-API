@@ -24,10 +24,10 @@ export class UserEntity extends BaseEntity {
   @Column({ name: 'profile_img', nullable: true })
   profileImg: string
 
-  @Column({ name: 'points_score' })
+  @Column({ name: 'points_score', nullable: true })
   pointsScore: number
 
-  @Column({ name: 'activities_ids' })
+  @Column({ name: 'activities_ids', nullable: true })
   activitiesIds: string
 
   @CreateDateColumn({ name: 'created_at' })
