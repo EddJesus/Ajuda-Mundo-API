@@ -19,7 +19,7 @@ export class OngEntity extends BaseEntity {
   email: string
 
   @Column()
-  password: number
+  password: string
 
   @Column({ name: 'profile_img', nullable: true })
   profileImg: string
