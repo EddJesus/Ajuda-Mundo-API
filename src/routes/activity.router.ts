@@ -1,11 +1,24 @@
 import { Router, Request, Response } from 'express'
 
+import { makeValidateBody } from '../middlewares/RouteValidator'
+
+import { ActivityFactory, CreateActivityDto } from '../modules/Activity'
+
 const routes = Router()
 
-routes.get('/', (req: Request, res: Response) => {
-  res.status(200).json({
-    status: 'up',
-  })
+routes.get('/', async (req: Request, res: Response) => {
+  await ActivityFactory().findAllActivities(req, res)
 })
 
+routes.get('/:id', async (req: Request, res: Response) => {
+  await ActivityFactory().findActivityById(req, res)
+})
+
+routes.post(
+  '/',
+  makeValidateBody(CreateActivityDto),
+  async (req: Request, res: Response) => {
+    await ActivityFactory().createActivity(req, res)
+  },
+)
 export { routes }
