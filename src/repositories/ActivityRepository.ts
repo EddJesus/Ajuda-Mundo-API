@@ -1,5 +1,8 @@
 import { AppDataSource } from '../data-source'
 import { ActivityEntity } from '../entities/Activity.entity'
+import { ActivityType } from '../modules/Activity'
+
+import { DeleteResult } from 'typeorm'
 
 export class ActivityRepository {
   async getActivityById(activityId: number): Promise<ActivityEntity | null> {
@@ -34,30 +37,12 @@ export class ActivityRepository {
     }
   }
 
-  // TODO: mover para DTO e tipar os dados
-  async saveActivity(
-    name: any,
-    points: any,
-    description: any,
-    mainImg: any,
-    status: any,
-    ongId: any,
-    userId: any,
-  ): Promise<any> {
-    // TODO: encontrar tipagem para retorno
+  async saveActivity(activity: ActivityType): Promise<ActivityEntity> {
     try {
       console.log('Iniciando registro de nova atividade...')
       const activyRepository = AppDataSource.getRepository(ActivityEntity)
 
-      const response = await activyRepository.save({
-        name,
-        points,
-        description,
-        mainImg,
-        status,
-        ongId,
-        userId,
-      })
+      const response = await activyRepository.save(activity)
 
       console.log(`Retorno da consulta: ${response}`)
 
@@ -68,31 +53,17 @@ export class ActivityRepository {
     }
   }
 
-  // TODO: mover para DTO e tipar os dados
   async updateActivity(
     activityId: number,
-    name: any,
-    points: any,
-    description: any,
-    mainImg: any,
-    status: any,
-    ongId: any,
-    userId: any,
-  ): Promise<any> {
-    // TODO: encontrar tipagem para retorno
+    activity: ActivityType,
+  ): Promise<ActivityEntity> {
     try {
       console.log(`Iniciando update de atividade com id: ${activityId}...`)
       const activyRepository = AppDataSource.getRepository(ActivityEntity)
 
       const response = await activyRepository.save({
         activityId,
-        name,
-        points,
-        description,
-        mainImg,
-        status,
-        ongId,
-        userId,
+        ...activity,
       })
 
       console.log(`Retorno do update: ${response}`)
@@ -104,8 +75,7 @@ export class ActivityRepository {
     }
   }
 
-  // TODO: se possível arrumar tipagem do retorno desse método
-  async deleteActivity(activityId: number): Promise<any> {
+  async deleteActivity(activityId: number): Promise<DeleteResult> {
     try {
       console.log(`Iniciando exclusão de atividade pelo id: ${activityId}...`)
       const activyRepository = AppDataSource.getRepository(ActivityEntity)
