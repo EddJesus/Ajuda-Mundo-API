@@ -9,6 +9,8 @@ import 'reflect-metadata'
 
 const app = express()
 
+app.use(express.json())
+
 try {
   InitializeDatabase()
   console.log('Banco de dados inicializado com sucesso!')
