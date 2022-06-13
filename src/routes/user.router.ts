@@ -1,17 +1,16 @@
 import { Router, Request, Response } from 'express'
 
-import { makeValidateBody } from '../middlewares/RouteValidator'
+import { makeValidateBody, validateToken } from '../middlewares'
 
-import { UserFactory, CreateUserDto } from '../modules/User'
+import { UserFactory, CreateUserDto, LoginDto } from '../modules/User'
 
 const routes = Router()
 
-routes.get('/', async (req: Request, res: Response) => {
+routes.get('/', validateToken, async (req: Request, res: Response) => {
   await UserFactory().findAllUsers(req, res)
 })
 
-routes.get('/:id', async (req: Request, res: Response) => {
-  console.log('caindo aqui')
+routes.get('/:id', validateToken, async (req: Request, res: Response) => {
   await UserFactory().findUserById(req, res)
 })
 
@@ -20,6 +19,14 @@ routes.post(
   makeValidateBody(CreateUserDto),
   async (req: Request, res: Response) => {
     await UserFactory().createUser(req, res)
+  },
+)
+
+routes.post(
+  '/login',
+  makeValidateBody(LoginDto),
+  async (req: Request, res: Response) => {
+    await UserFactory().login(req, res)
   },
 )
 

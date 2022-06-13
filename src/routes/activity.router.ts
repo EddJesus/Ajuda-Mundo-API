@@ -1,28 +1,29 @@
 import { Router, Request, Response } from 'express'
 
-import { makeValidateBody } from '../middlewares/RouteValidator'
+import { makeValidateBody, validateToken } from '../middlewares'
 
 import { ActivityFactory, CreateActivityDto } from '../modules/Activity'
 
 const routes = Router()
 
-routes.get('/', async (req: Request, res: Response) => {
+routes.get('/', validateToken, async (req: Request, res: Response) => {
   await ActivityFactory().findAllActivities(req, res)
 })
 
-routes.get('/:id', async (req: Request, res: Response) => {
+routes.get('/:id', validateToken, async (req: Request, res: Response) => {
   await ActivityFactory().findActivityById(req, res)
 })
 
 routes.post(
   '/',
+  validateToken,
   makeValidateBody(CreateActivityDto),
   async (req: Request, res: Response) => {
     await ActivityFactory().createActivity(req, res)
   },
 )
 
-routes.delete('/:id', async (req: Request, res: Response) => {
+routes.delete('/:id', validateToken, async (req: Request, res: Response) => {
   await ActivityFactory().deleteActivityById(req, res)
 })
 

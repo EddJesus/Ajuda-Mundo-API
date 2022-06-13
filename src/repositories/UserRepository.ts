@@ -21,6 +21,22 @@ export class UserRepository {
     }
   }
 
+  async getUserByEmail(email: string): Promise<UserEntity | null> {
+    try {
+      console.log(`Iniciando consulta de usuario pelo email: ${email}...`)
+      const userRepository = AppDataSource.getRepository(UserEntity)
+
+      const user = await userRepository.findOneBy({ email })
+
+      console.log(`Retorno da consulta: ${user}`)
+
+      return user
+    } catch (error) {
+      console.log('Erro ao realizar consulta de usuario!', error)
+      throw error
+    }
+  }
+
   async getUsers(): Promise<UserEntity[] | null> {
     try {
       console.log('Iniciando consulta de usuarios...')

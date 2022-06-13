@@ -78,6 +78,26 @@ class ActivityService {
       throw error
     }
   }
+
+  // async assingToActivity(DTO: any): Promise<any> {
+  //   try {
+  //     // receber id da atividade
+  //     // puxar usuario pelo token
+  //     // atribuir id da atividade ao activitiesId do usuário no banco
+  //     // trocar status de CADASTRADA para ATRIBUIDA
+  //   } catch (error) {}
+  // }
+
+  // async doActivity(DTO: any): Promise<any> {
+  //   try {
+  //     // receber id da atividade
+  //     // puxar usuario pelo token
+  //     // verificar se esse id pertence ao activitiesId do usuário
+  //     // receber campo de realização da atividade
+  //     // preencher campo de realização da atividade
+  //     // trocar status de ATRIBUIDA para REALIZADA
+  //   } catch (error) {}
+  // }
 }
 
 export { ActivityService }
