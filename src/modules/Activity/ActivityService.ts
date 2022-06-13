@@ -79,25 +79,52 @@ class ActivityService {
     }
   }
 
-  // async assingToActivity(DTO: any): Promise<any> {
-  //   try {
-  //     // receber id da atividade
-  //     // puxar usuario pelo token
-  //     // atribuir id da atividade ao activitiesId do usuário no banco
-  //     // trocar status de CADASTRADA para ATRIBUIDA
-  //   } catch (error) {}
-  // }
+  async assingToActivity(
+    activityId: number,
+    userId: number,
+  ): Promise<ActivityEntity> {
+    try {
+      console.log(
+        `Atribuindo atividade ${activityId} ao usuário de id: ${userId}...`,
+      )
 
-  // async doActivity(DTO: any): Promise<any> {
-  //   try {
-  //     // receber id da atividade
-  //     // puxar usuario pelo token
-  //     // verificar se esse id pertence ao activitiesId do usuário
-  //     // receber campo de realização da atividade
-  //     // preencher campo de realização da atividade
-  //     // trocar status de ATRIBUIDA para REALIZADA
-  //   } catch (error) {}
-  // }
+      const result = await this.activityRepository.updateActivity(activityId, {
+        userId,
+        status: 1,
+      })
+
+      console.log(
+        `Atividade ${activityId} ao usuário de id: ${userId} com sucesso!`,
+      )
+
+      return result
+    } catch (error) {
+      console.log('ActivityService.assingToActivity error', error)
+      throw error
+    }
+  }
+
+  async doActivity(
+    activiyId: number,
+    userId: number,
+    realizationField: string,
+  ): Promise<boolean> {
+    try {
+      const activity = await this.activityRepository.getActivityById(activiyId)
+
+      if (activity?.userId === userId) {
+        await this.activityRepository.updateActivity(activiyId, {
+          status: 2,
+          realizationField,
+        })
+      }
+
+      return true
+    } catch (error) {
+      console.log('ActivityService.doActivity error', error)
+      throw error
+    }
+  }
 }
 
 export { ActivityService }

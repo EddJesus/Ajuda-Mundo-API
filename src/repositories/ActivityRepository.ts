@@ -55,7 +55,7 @@ export class ActivityRepository {
 
   async updateActivity(
     activityId: number,
-    activity: ActivityType,
+    activity: Partial<ActivityType>,
   ): Promise<ActivityEntity> {
     try {
       console.log(`Iniciando update de atividade com id: ${activityId}...`)

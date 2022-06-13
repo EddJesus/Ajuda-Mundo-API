@@ -33,6 +33,9 @@ export class ActivityEntity extends BaseEntity {
   @Column({ name: 'user_id', nullable: true })
   userId: number
 
+  @Column({ name: 'realization_field', nullable: true })
+  realizationField: string
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date
 

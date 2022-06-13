@@ -24,4 +24,8 @@ export class ActivityType {
   @IsOptional()
   @IsInt()
   userId?: number
+
+  @IsOptional()
+  @IsString()
+  realizationField?: string
 }

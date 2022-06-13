@@ -24,4 +24,8 @@ export class CreateActivityDto {
   @IsOptional()
   @IsInt()
   userId?: number
+
+  @IsOptional()
+  @IsString()
+  realizationField?: string
 }
