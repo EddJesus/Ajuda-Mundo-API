@@ -2,6 +2,7 @@ import { UpdateUserDto, CreateUserDto, LoginDto } from './dtos'
 import { UserService } from './UserService'
 
 import { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 
 class UserController {
   constructor(private readonly userService: UserService) {}
@@ -157,6 +158,45 @@ class UserController {
         return res.status(401).json({
           erro: true,
           message: 'Erro ao realizar login',
+        })
+      } else {
+        return res.status(500).json({
+          erro: true,
+          message: 'Erro não mapeado',
+        })
+      }
+    }
+  }
+
+  async getUserData(
+    req: Request,
+    res: Response,
+  ): Promise<Response<unknown, Record<string, unknown>>> {
+    try {
+      const headers = req.headers
+      const authorizationHeader = headers.authorization
+      const token = authorizationHeader?.split(' ')[1]
+
+      if (token) {
+        const payload = jwt.decode(token)
+
+        const { email } = payload as { email: string }
+
+        const user = await this.userService.findUserByEmail(email)
+
+        return res.status(200).json({
+          user,
+        })
+      } else {
+        throw new Error('Token inválido')
+      }
+    } catch (error) {
+      console.log('UserController.getUserData error', error)
+
+      if (error instanceof Error) {
+        return res.status(500).json({
+          erro: true,
+          message: 'Erro buscar usuário. Token inválido!',
         })
       } else {
         return res.status(500).json({

@@ -30,4 +30,8 @@ routes.post(
   },
 )
 
+routes.get('/login/get-user', async (req: Request, res: Response) => {
+  await UserFactory().getUserData(req, res)
+})
+
 export { routes }

@@ -1,9 +1,9 @@
 import { UpdateActivityDto, CreateActivityDto, DoActivityDto } from './dtos'
 import { ActivityService } from './ActivityService'
+import { UserService } from '../User'
 
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { UserService } from '../User'
 
 class ActivityController {
   constructor(
