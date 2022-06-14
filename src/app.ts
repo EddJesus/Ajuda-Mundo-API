@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 
 import { InitializeDatabase } from './data-source'
 
@@ -8,6 +9,15 @@ import 'dotenv/config'
 import 'reflect-metadata'
 
 const app = express()
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    allowedHeaders:
+      'origin, X-Requested-With, Content-Type, Accept, Authorization, token, OPTIONS',
+  }),
+)
 
 InitializeDatabase()
   .then(() => {
