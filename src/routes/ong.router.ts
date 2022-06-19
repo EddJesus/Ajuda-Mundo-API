@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express'
 
 import { makeValidateBody, validateToken } from '../middlewares'
 
-import { OngFactory, CreateOngDto } from '../modules/Ong'
+import { OngFactory, CreateOngDto, LoginDto } from '../modules/Ong'
 
 const routes = Router()
 
@@ -21,5 +21,17 @@ routes.post(
     await OngFactory().createOng(req, res)
   },
 )
+
+routes.post(
+  '/login',
+  makeValidateBody(LoginDto),
+  async (req: Request, res: Response) => {
+    await OngFactory().login(req, res)
+  },
+)
+
+routes.get('/login/get-ong', async (req: Request, res: Response) => {
+  await OngFactory().getOngData(req, res)
+})
 
 export { routes }

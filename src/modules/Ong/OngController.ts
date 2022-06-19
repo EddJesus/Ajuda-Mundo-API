@@ -1,7 +1,8 @@
-import { UpdateOngDto, CreateOngDto } from './dtos'
+import { UpdateOngDto, CreateOngDto, LoginDto } from './dtos'
 import { OngService } from './OngService'
 
 import { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 
 class OngController {
   constructor(private readonly OngService: OngService) {}
@@ -121,6 +122,81 @@ class OngController {
         return res.status(500).json({
           erro: true,
           message: error.message,
+        })
+      } else {
+        return res.status(500).json({
+          erro: true,
+          message: 'Erro não mapeado',
+        })
+      }
+    }
+  }
+
+  async login(
+    req: Request,
+    res: Response,
+  ): Promise<Response<unknown, Record<string, unknown>>> {
+    try {
+      const body: LoginDto = req.body
+      const { email, password } = body
+
+      const token = await this.OngService.login(email, password)
+
+      const ONE_HOUR = 3600
+      const THREE_HOURS = 10800
+
+      const expirationDate = new Date(Date.now() - THREE_HOURS + ONE_HOUR)
+
+      return res.status(200).json({
+        token,
+        expirenIn: expirationDate,
+      })
+    } catch (error) {
+      console.log('OngController.login error', error)
+
+      if (error instanceof Error) {
+        return res.status(401).json({
+          erro: true,
+          message: 'Erro ao realizar login',
+        })
+      } else {
+        return res.status(500).json({
+          erro: true,
+          message: 'Erro não mapeado',
+        })
+      }
+    }
+  }
+
+  async getOngData(
+    req: Request,
+    res: Response,
+  ): Promise<Response<unknown, Record<string, unknown>>> {
+    try {
+      const headers = req.headers
+      const authorizationHeader = headers.authorization
+      const token = authorizationHeader?.split(' ')[1]
+
+      if (token) {
+        const payload = jwt.decode(token)
+
+        const { email } = payload as { email: string }
+
+        const ong = await this.OngService.findOngByEmail(email)
+
+        return res.status(200).json({
+          ong,
+        })
+      } else {
+        throw new Error('Token inválido')
+      }
+    } catch (error) {
+      console.log('OngController.getOngData error', error)
+
+      if (error instanceof Error) {
+        return res.status(500).json({
+          erro: true,
+          message: 'Erro buscar ong. Token inválido!',
         })
       } else {
         return res.status(500).json({

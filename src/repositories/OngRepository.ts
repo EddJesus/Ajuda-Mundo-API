@@ -21,6 +21,23 @@ export class OngRepository {
     }
   }
 
+  async getOngByEmail(email: string): Promise<OngEntity | null> {
+    try {
+      console.log(`Iniciando consulta de ong pelo email: ${email}...`)
+      const ongRepository = AppDataSource.getRepository(OngEntity)
+
+      const ong = await ongRepository.findOneBy({ email })
+
+      console.log(`Retorno da consulta:`)
+      console.log(ong)
+
+      return ong
+    } catch (error) {
+      console.log('Erro ao realizar consulta de ong!', error)
+      throw error
+    }
+  }
+
   async getOngs(): Promise<OngEntity[] | null> {
     try {
       console.log('Iniciando consulta de ongs...')
