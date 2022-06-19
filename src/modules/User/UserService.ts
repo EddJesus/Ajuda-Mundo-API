@@ -78,7 +78,7 @@ class UserService {
         throw new Error('Usuário não encontrado!')
       }
     } catch (error) {
-      console.log('UserService.findUserById error', error)
+      console.log('UserService.findUserByEmail error', error)
       throw error
     }
   }
