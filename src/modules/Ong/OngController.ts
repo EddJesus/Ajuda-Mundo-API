@@ -149,7 +149,7 @@ class OngController {
 
       return res.status(200).json({
         token,
-        expirenIn: expirationDate,
+        expiresIn: expirationDate,
       })
     } catch (error) {
       console.log('OngController.login error', error)

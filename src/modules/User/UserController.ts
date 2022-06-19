@@ -149,7 +149,7 @@ class UserController {
 
       return res.status(200).json({
         token,
-        expirenIn: expirationDate,
+        expiresIn: expirationDate,
       })
     } catch (error) {
       console.log('UserController.login error', error)
