@@ -178,6 +178,16 @@ class OngController {
       const token = authorizationHeader?.split(' ')[1]
 
       if (token) {
+        const key = process.env.JSON_WEB_TOKEN_KEY
+
+        if (key) {
+          jwt.verify(token, key)
+        } else {
+          throw new Error(
+            'Não foi possível validar token. Erro com variáveis de ambiente do servidor!',
+          )
+        }
+
         const payload = jwt.decode(token)
 
         const { email } = payload as { email: string }
