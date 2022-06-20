@@ -23,9 +23,18 @@ class ActivityService {
 
   async updateActivity(
     activityId: number,
-    activity: ActivityType,
+    ongId: number,
+    activity: Partial<ActivityType>,
   ): Promise<ActivityEntity> {
     try {
+      const activityData = await this.activityRepository.getActivityById(
+        activityId,
+      )
+
+      if (activityData?.ongId !== ongId) {
+        throw new Error('Somente a ong que criou a atividade que pode editá-la')
+      }
+
       const result = await this.activityRepository.updateActivity(
         activityId,
         activity,

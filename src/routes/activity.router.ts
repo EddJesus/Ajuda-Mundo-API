@@ -6,6 +6,7 @@ import {
   ActivityFactory,
   CreateActivityDto,
   DoActivityDto,
+  UpdateActivityDto,
 } from '../modules/Activity'
 
 const routes = Router()
@@ -24,6 +25,15 @@ routes.post(
   makeValidateBody(CreateActivityDto),
   async (req: Request, res: Response) => {
     await ActivityFactory().createActivity(req, res)
+  },
+)
+
+routes.patch(
+  '/:id',
+  validateToken,
+  makeValidateBody(UpdateActivityDto),
+  async (req: Request, res: Response) => {
+    await ActivityFactory().updateActivity(req, res)
   },
 )
 

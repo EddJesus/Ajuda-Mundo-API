@@ -59,6 +59,7 @@ export class ActivityRepository {
   ): Promise<ActivityEntity> {
     try {
       console.log(`Iniciando update de atividade com id: ${activityId}...`)
+      console.log('Dados do update', activity)
       const activyRepository = AppDataSource.getRepository(ActivityEntity)
 
       const response = await activyRepository.save({

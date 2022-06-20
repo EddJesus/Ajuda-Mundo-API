@@ -1,6 +1,7 @@
 import { UpdateActivityDto, CreateActivityDto, DoActivityDto } from './dtos'
 import { ActivityService } from './ActivityService'
 import { UserService } from '../User'
+import { OngService } from '../Ong'
 
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
@@ -9,6 +10,7 @@ class ActivityController {
   constructor(
     private readonly activityService: ActivityService,
     private readonly userService: UserService,
+    private readonly ongService: OngService,
   ) {}
 
   async findAllActivities(
@@ -42,19 +44,57 @@ class ActivityController {
     res: Response,
   ): Promise<Response<unknown, Record<string, unknown>>> {
     try {
-      const body: UpdateActivityDto = req.body
-      const { activityId, activity } = body
+      const params = req.params
+      const activityId = params.id
 
-      const result = await this.activityService.updateActivity(
-        activityId,
-        activity,
-      )
+      const headers = req.headers
+      const authorizationHeader = headers.authorization
+      const token = authorizationHeader?.split(' ')[1]
 
-      console.log(result)
+      if (token) {
+        const payload = jwt.decode(token)
 
-      return res.status(204).json({
-        activityId,
-      })
+        const { email } = payload as { email: string }
+        const { ongId: validationId } = await this.ongService.findOngByEmail(
+          email,
+        )
+
+        const body: UpdateActivityDto = req.body
+
+        const {
+          description,
+          name,
+          ongId,
+          points,
+          mainImg,
+          realizationField,
+          status,
+          userId,
+        } = body
+
+        const result = await this.activityService.updateActivity(
+          Number(activityId),
+          validationId,
+          {
+            description,
+            name,
+            ongId,
+            points,
+            mainImg,
+            realizationField,
+            status,
+            userId,
+          },
+        )
+
+        console.log(result)
+
+        return res.status(204).json({
+          activityId,
+        })
+      } else {
+        throw new Error('Erro ao validar token')
+      }
     } catch (error) {
       console.log('ActivityController.updateActivity error', error)
       if (error instanceof Error) {
