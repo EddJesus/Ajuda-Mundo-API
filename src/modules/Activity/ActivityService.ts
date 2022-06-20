@@ -21,6 +21,21 @@ class ActivityService {
     }
   }
 
+  async getOngActivities(ongId: number): Promise<ActivityEntity[]> {
+    try {
+      const activities = await this.activityRepository.getOngActivities(ongId)
+
+      if (activities) {
+        return activities
+      } else {
+        throw new Error('Erro ao consultar atividades da ong')
+      }
+    } catch (error) {
+      console.log('ActivityService.getOngActivities error', error)
+      throw error
+    }
+  }
+
   async updateActivity(
     activityId: number,
     ongId: number,

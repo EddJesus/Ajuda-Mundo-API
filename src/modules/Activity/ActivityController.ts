@@ -39,6 +39,45 @@ class ActivityController {
     }
   }
 
+  async getOngActivities(
+    req: Request,
+    res: Response,
+  ): Promise<Response<unknown, Record<string, unknown>>> {
+    try {
+      const headers = req.headers
+      const authorizationHeader = headers.authorization
+      const token = authorizationHeader?.split(' ')[1]
+
+      if (token) {
+        const payload = jwt.decode(token)
+
+        const { email } = payload as { email: string }
+        const { ongId } = await this.ongService.findOngByEmail(email)
+
+        const activities = await this.activityService.getOngActivities(ongId)
+
+        return res.status(201).json({
+          activities,
+        })
+      } else {
+        throw new Error('Erro ao validar token')
+      }
+    } catch (error) {
+      console.log('ActivityController.getOngActivities error', error)
+      if (error instanceof Error) {
+        return res.status(500).json({
+          erro: true,
+          message: error.message,
+        })
+      } else {
+        return res.status(500).json({
+          erro: true,
+          message: 'Erro não mapeado',
+        })
+      }
+    }
+  }
+
   async updateActivity(
     req: Request,
     res: Response,

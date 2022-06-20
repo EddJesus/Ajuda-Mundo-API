@@ -37,6 +37,26 @@ export class ActivityRepository {
     }
   }
 
+  async getOngActivities(ongId: number): Promise<ActivityEntity[] | null> {
+    try {
+      console.log(`Iniciando consulta de atividades da ong ${ongId}...`)
+      const activyRepository = AppDataSource.getRepository(ActivityEntity)
+
+      const activities = await activyRepository.find({
+        where: {
+          ongId,
+        },
+      })
+
+      console.log(`Retorno da consulta: ${activities}`)
+
+      return activities
+    } catch (error) {
+      console.log('Erro ao realizar consulta de atividades da ong!', error)
+      throw error
+    }
+  }
+
   async saveActivity(activity: ActivityType): Promise<ActivityEntity> {
     try {
       console.log('Iniciando registro de nova atividade...')

@@ -15,6 +15,14 @@ routes.get('/', validateToken, async (req: Request, res: Response) => {
   await ActivityFactory().findAllActivities(req, res)
 })
 
+routes.get(
+  '/ong-activities',
+  validateToken,
+  async (req: Request, res: Response) => {
+    await ActivityFactory().getOngActivities(req, res)
+  },
+)
+
 routes.get('/:id', validateToken, async (req: Request, res: Response) => {
   await ActivityFactory().findActivityById(req, res)
 })
