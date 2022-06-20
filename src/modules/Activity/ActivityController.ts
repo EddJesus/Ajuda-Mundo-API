@@ -231,7 +231,18 @@ class ActivityController {
       const params = req.params
       const activityId = params.id
 
-      await this.activityService.deleteActivityById(Number(activityId))
+      const headers = req.headers
+      const authorizationHeader = headers.authorization
+      const token = authorizationHeader?.split(' ')[1]
+
+      if (token) {
+        const payload = jwt.decode(token)
+
+        const { email } = payload as { email: string }
+        const { ongId } = await this.ongService.findOngByEmail(email)
+
+        await this.activityService.deleteActivityById(Number(activityId), ongId)
+      }
 
       return res.status(204).json({
         message: 'Atividade deletada com sucesso!',

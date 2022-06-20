@@ -88,8 +88,21 @@ class ActivityService {
     }
   }
 
-  async deleteActivityById(activityId: number): Promise<boolean> {
+  async deleteActivityById(
+    activityId: number,
+    ongId: number,
+  ): Promise<boolean> {
     try {
+      const activityData = await this.activityRepository.getActivityById(
+        activityId,
+      )
+
+      if (activityData?.ongId !== ongId) {
+        throw new Error(
+          'Somente a ong que criou a atividade que pode deleta-la',
+        )
+      }
+
       const result = await this.activityRepository.deleteActivity(activityId)
 
       if (result.affected !== 0) {
