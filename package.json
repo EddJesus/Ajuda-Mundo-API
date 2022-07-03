@@ -5,12 +5,14 @@
   "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev --exit-child src/server.ts",
+    "dev": "ts-node-dev --exit-child src/server.ts",
+    "start": "node dist/server.js",
     "lint": "npx eslint src",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier src --check",
     "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix"
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "build": "tsc --build && npm start"
   },
   "author": "",
   "license": "ISC",
