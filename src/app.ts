@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 
@@ -5,7 +6,6 @@ import { InitializeDatabase } from './data-source'
 
 import { healthRouter, ongRouter, userRouter, activityRouter } from './routes'
 
-import 'dotenv/config'
 import 'reflect-metadata'
 
 const app = express()
